@@ -1,0 +1,15 @@
+.idea/
+out/
+*.ipr
+*.iml
+*.tmp
+*.bak
+*.exe
+*.dll
+*.so
+Cargo.lock
+.DS_Store
+Thumbs.db
+target/
+*.rs.bk
+Desktop.ini

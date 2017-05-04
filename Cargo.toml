@@ -1,0 +1,6 @@
+[package]
+name = "ore"
+version = "0.1.0"
+authors = ["Hunar Roop Kahlon <hunar.roop@gmail.com>", "Adam Spofford <pieflavor.mc@gmail.com>"]
+
+[dependencies]
