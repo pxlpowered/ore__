@@ -1,3 +1,10 @@
+/*
+ Crate:         ore
+ File:          /lib.rs
+ Module:        ::
+ Visibility:    public
+ */
+
 extern crate chrono;
 extern crate clap;
 extern crate serde;
