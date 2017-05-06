@@ -2,5 +2,14 @@
 name = "ore"
 version = "0.1.0"
 authors = ["Hunar Roop Kahlon <hunar.roop@gmail.com>", "Adam Spofford <pieflavor.mc@gmail.com>"]
+license = "MIT"
+description = "A library abstracting over the SpongePowered Ore web API."
 
 [dependencies]
+chrono = "0.3.1"
+clap = "2.23.3"
+serde = "1.0.2"
+serde_derive = "1.0.2"
+serde_json = "1.0.1"
+hyper = "0.10.9"
+hyper-rustls = "0.3.3"
