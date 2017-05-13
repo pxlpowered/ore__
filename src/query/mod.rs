@@ -18,14 +18,6 @@ use std::result::Result as StdResult;
 pub type Result<T> = StdResult<T, self::Error>;
 
 /// TODO
-#[derive(Debug)]
-pub enum Error {
-    Http(HttpError),
-    Io(IoError),
-    Json(SerdeError),
-}
-
-/// TODO
 pub trait Query<'a> {
     /// The return type.
     /// TODO
@@ -34,6 +26,14 @@ pub trait Query<'a> {
     /// Initiate a query.
     /// TODO
     fn query(&self, url: &'a str) -> Result<Self::Ret>;
+}
+
+/// TODO
+#[derive(Debug)]
+pub enum Error {
+    Http(HttpError),
+    Io(IoError),
+    Json(SerdeError),
 }
 
 #[derive(Builder, Clone, Debug, Default)]
