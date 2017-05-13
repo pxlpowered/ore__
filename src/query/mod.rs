@@ -32,6 +32,7 @@ pub trait Query<'a> {
 #[derive(Debug)]
 pub enum Error {
     Http(HttpError),
+    InvalidId(String),
     Io(IoError),
     Json(SerdeError),
 }
@@ -50,8 +51,9 @@ pub struct PluginsQuery<'a> {
 
 /// TODO
 pub fn plugins_matching(query: &str) -> PluginsQueryBuilder {
-    let mut builder = PluginsQueryBuilder::default();
-    builder.query(Some(query)).to_owned()
+    PluginsQueryBuilder::default()
+        .query(Some(query))
+        .to_owned()
 }
 
 impl StdError for Error {
@@ -60,7 +62,7 @@ impl StdError for Error {
     }
 
     fn description(&self) -> &str {
-        error_impl::error_desciption(self)
+        error_impl::error_description(self)
     }
 }
 

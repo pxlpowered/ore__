@@ -22,14 +22,16 @@ pub fn error_cause(error: &Error) -> Option<&StdError> {
         Error::Http(ref why) => Some(why),
         Error::Io(ref why) => Some(why),
         Error::Json(ref why) => Some(why),
+        _ => None,
     }
 }
 
 /// TODO
 #[inline]
-pub fn error_desciption(error: &Error) -> &str {
+pub fn error_description(error: &Error) -> &str {
     match *error {
         Error::Http(ref why) => why.description(),
+        Error::InvalidId(ref why) => "Invalid project id",
         Error::Io(ref why) => why.description(),
         Error::Json(ref why) => why.description(),
     }
@@ -42,6 +44,7 @@ pub fn fmt_display(error: &Error, f: &mut Formatter) -> FmtResult {
     match *error {
         Error::Http(ref why) => Display::fmt(why, f),
         Error::Io(ref why) => Display::fmt(why, f),
+        Error::InvalidId(ref why) => write!(f, "Invalid plugin id '{id}'", id = why.as_str()),
         Error::Json(ref why) => Display::fmt(why, f),
     }
 }
