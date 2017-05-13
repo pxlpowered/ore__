@@ -36,8 +36,10 @@ pub enum Error {
     Json(SerdeError),
 }
 
+/// TODO
 #[derive(Builder, Clone, Debug, Default)]
 #[builder(derive(Debug))]
+// TODO: Rename to ProjectsQuery
 pub struct PluginsQuery<'a> {
     categories: Option<Vec<PluginCategory>>,
     limit: Option<u32>,
