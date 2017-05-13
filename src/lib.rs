@@ -6,13 +6,16 @@
  */
 
 extern crate chrono;
-extern crate clap;
-extern crate serde;
-extern crate serde_json;
 #[macro_use]
-extern crate serde_derive;
+extern crate derive_builder;
 extern crate hyper;
 extern crate hyper_rustls;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
+
+pub mod query;
 
 mod api;
 mod types;
