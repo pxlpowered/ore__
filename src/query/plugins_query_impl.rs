@@ -13,7 +13,7 @@ use hyper::{Client, Url};
 use hyper::net::HttpsConnector;
 use serde_json;
 use std::io::Read;
-use super::{Error, PluginsQuery, PluginsQueryBuilder, Query};
+use super::{Error, PluginsQuery, PluginsQueryBuilder};
 
 const PROJECTS: &'static str = "/projects";
 
