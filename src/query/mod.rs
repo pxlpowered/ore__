@@ -36,7 +36,7 @@ pub trait Query<'a> {
     fn query(&self, url: &'a str) -> Result<Self::Ret>;
 }
 
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone, Debug, Default)]
 #[builder(derive(Debug))]
 pub struct PluginsQuery<'a> {
     categories: Option<Vec<PluginCategory>>,
