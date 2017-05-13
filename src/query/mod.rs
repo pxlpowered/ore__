@@ -48,6 +48,12 @@ pub struct PluginsQuery<'a> {
     sort: Option<SortType>,
 }
 
+/// TODO
+pub fn with_query(query: &str) -> PluginsQueryBuilder {
+    let mut builder = PluginsQueryBuilder::default();
+    builder.query(Some(query)).to_owned()
+}
+
 impl StdError for Error {
     fn cause(&self) -> Option<&StdError> {
         error_impl::error_cause(self)
