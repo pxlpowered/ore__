@@ -5,7 +5,7 @@
  Visibility:    private
  */
 
-//! TODO
+// TODO: documentation
 
 use hyper::Error as HttpError;
 use hyper::error::ParseError as UriParseError;
@@ -15,7 +15,7 @@ use std::fmt::{Formatter, Display, Result as FmtResult};
 use std::io::Error as IoError;
 use super::Error;
 
-/// TODO
+// TODO: documentation
 #[inline]
 pub fn error_cause(error: &Error) -> Option<&StdError> {
     match *error {
@@ -26,7 +26,7 @@ pub fn error_cause(error: &Error) -> Option<&StdError> {
     }
 }
 
-/// TODO
+// TODO: documentation
 #[inline]
 pub fn error_description(error: &Error) -> &str {
     match *error {
@@ -38,7 +38,7 @@ pub fn error_description(error: &Error) -> &str {
 }
 
 
-/// TODO
+// TODO: documentation
 #[inline]
 pub fn fmt_display(error: &Error, f: &mut Formatter) -> FmtResult {
     match *error {

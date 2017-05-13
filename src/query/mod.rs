@@ -5,7 +5,7 @@
  Visibility:    public
  */
 
-//! TODO
+// TODO: documentation
 
 use types::{Plugin, PluginCategory, SortType};
 use hyper::Error as HttpError;
@@ -17,18 +17,18 @@ use std::result::Result as StdResult;
 
 pub type Result<T> = StdResult<T, self::Error>;
 
-/// TODO
+// TODO: documentation
 pub trait Query<'a> {
+    // TODO: documentation
     /// The return type.
-    /// TODO
     type Ret;
 
+    // TODO: documentation
     /// Initiate a query.
-    /// TODO
     fn query(&self, url: &'a str) -> Result<Self::Ret>;
 }
 
-/// TODO
+// TODO: documentation
 #[derive(Debug)]
 pub enum Error {
     Http(HttpError),
@@ -37,7 +37,7 @@ pub enum Error {
     Json(SerdeError),
 }
 
-/// TODO
+// TODO
 #[derive(Builder, Clone, Debug, Default)]
 #[builder(derive(Debug))]
 // TODO: Rename to ProjectsQuery
@@ -49,7 +49,7 @@ pub struct PluginsQuery<'a> {
     sort: Option<SortType>,
 }
 
-/// TODO
+// TODO: documentation
 pub fn plugins_matching(query: &str) -> PluginsQueryBuilder {
     PluginsQueryBuilder::default()
         .query(Some(query))
@@ -73,27 +73,27 @@ impl Display for Error {
 }
 
 impl<'a> PluginsQuery<'a> {
-    /// TODO
+    // TODO: documentation
     pub fn categories(&self) -> Option<Vec<PluginCategory>> {
         self.categories.to_owned()
     }
 
-    /// TODO
+    // TODO: documentation
     pub fn limit(&self) -> Option<u32> {
         self.limit
     }
 
-    /// TODO
+    // TODO: documentation
     pub fn offset(&self) -> Option<u32> {
         self.offset
     }
 
-    /// TODO
+    // TODO: documentation
     pub fn query(&self) -> Option<&'a str> {
         self.query
     }
 
-    /// TODO
+    // TODO: documentation
     pub fn sort(&self) -> Option<SortType> {
         self.sort
     }

@@ -5,7 +5,7 @@
  Visibility:    private
  */
 
-//! TODO
+// TODO: documentation
 
 use types::Plugin;
 use hyper_rustls::TlsClient;
@@ -17,7 +17,7 @@ use super::{Error, PluginsQuery, PluginsQueryBuilder};
 
 const PROJECTS: &'static str = "/projects";
 
-/// TODO
+// TODO: documentation
 #[inline]
 pub fn from_builder<'a, 'b>(plugins_query: PluginsQuery<'a>) -> PluginsQueryBuilder<'b>
     where 'a: 'b
@@ -31,7 +31,7 @@ pub fn from_builder<'a, 'b>(plugins_query: PluginsQuery<'a>) -> PluginsQueryBuil
     tmp
 }
 
-/// TODO
+// TODO: documentation
 #[inline]
 pub fn plugins_query(plugin_query: &PluginsQuery, url: &str) -> Result<Vec<Plugin>, Error> {
     let mut req_url: Url;
