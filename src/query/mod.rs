@@ -49,7 +49,7 @@ pub struct PluginsQuery<'a> {
 }
 
 /// TODO
-pub fn with_query(query: &str) -> PluginsQueryBuilder {
+pub fn plugins_matching(query: &str) -> PluginsQueryBuilder {
     let mut builder = PluginsQueryBuilder::default();
     builder.query(Some(query)).to_owned()
 }
