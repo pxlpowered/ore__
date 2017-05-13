@@ -41,7 +41,13 @@ impl<'a> PluginSearchQuery<'a> {
         {
             let mut pairs = url.query_pairs_mut();
             if let Some(ref categories) = self.categories {
-                pairs.append_pair("categories", categories.into_iter().map(|x| *x as u8).fold(String::new(), |x, y| x + "," + y.to_string().as_str()).as_str());
+                pairs.append_pair("categories",
+                                  categories
+                                      .into_iter()
+                                      .map(|x| *x as u8)
+                                      .fold(String::new(),
+                                            |x, y| x + "," + y.to_string().as_str())
+                                      .as_str());
             }
             if let Some(ref sort) = self.sort {
                 pairs.append_pair("sort", (*sort as u8).to_string().as_str());
@@ -58,7 +64,6 @@ impl<'a> PluginSearchQuery<'a> {
         client.get(url).send()?.read_to_string(&mut res)?;
         Ok(serde_json::from_str::<Vec<Plugin>>(&res)?)
     }
-
 }
 
 pub fn search_plugins(query: &str) -> PluginSearchQuery {
@@ -73,7 +78,10 @@ pub fn search_plugins(query: &str) -> PluginSearchQuery {
 
 pub fn get_plugin(id: &str) -> Result<Plugin, Error> {
     let client = Client::with_connector(HttpsConnector::new(TlsClient::new()));
-    let url = Url::parse("https://ore.spongepowered.org/api/projects/").unwrap().join(id).map_err(|_| Error::IncorrectIdError)?;
+    let url = Url::parse("https://ore.spongepowered.org/api/projects/")
+        .unwrap()
+        .join(id)
+        .map_err(|_| Error::IncorrectIdError)?;
     let mut res = String::new();
     println!("{}", url.to_string());
     client.get(url).send()?.read_to_string(&mut res)?;
@@ -113,12 +121,20 @@ impl<'a> VersionSearchQuery<'a> {
     }
     pub fn exec(&self) -> Result<Vec<Version>, Error> {
         let client = Client::with_connector(HttpsConnector::new(TlsClient::new()));
-        let mut url = Url::parse("https://ore.spongepowered.org/api/projects/").unwrap()
-            .join((self.id.to_owned() + "/").as_str()).map_err(|_| Error::IncorrectIdError)?.join("versions").unwrap();
+        let mut url = Url::parse("https://ore.spongepowered.org/api/projects/")
+            .unwrap()
+            .join((self.id.to_owned() + "/").as_str())
+            .map_err(|_| Error::IncorrectIdError)?
+            .join("versions")
+            .unwrap();
         {
             let mut pairs = url.query_pairs_mut();
             if let Some(ref channels) = self.channels {
-                pairs.append_pair("channels", channels.into_iter().fold(String::new(), |x, y| x + "," + y).as_str());
+                pairs.append_pair("channels",
+                                  channels
+                                      .into_iter()
+                                      .fold(String::new(), |x, y| x + "," + y)
+                                      .as_str());
             }
             pairs.append_pair("limit", self.limit.to_string().as_str());
             if let Some(offset) = self.offset {
@@ -133,9 +149,14 @@ impl<'a> VersionSearchQuery<'a> {
 
 pub fn get_version(id: &str, version: &str) -> Result<Version, Error> {
     let client = Client::with_connector(HttpsConnector::new(TlsClient::new()));
-    let url = Url::parse("https://ore.spongepowered.org/api/projects/").unwrap()
-        .join((id.to_owned() + "/").as_str()).map_err(|_| Error::IncorrectIdError)?.join("versions/").unwrap()
-        .join((version.to_owned() + "/").as_str()).map_err(|_| Error::IncorrectVersionError)?;
+    let url = Url::parse("https://ore.spongepowered.org/api/projects/")
+        .unwrap()
+        .join((id.to_owned() + "/").as_str())
+        .map_err(|_| Error::IncorrectIdError)?
+        .join("versions/")
+        .unwrap()
+        .join((version.to_owned() + "/").as_str())
+        .map_err(|_| Error::IncorrectVersionError)?;
     let mut res = String::new();
     client.get(url).send()?.read_to_string(&mut res)?;
     Ok(serde_json::from_str::<Version>(&res)?)

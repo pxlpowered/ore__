@@ -24,11 +24,13 @@ struct PluginCategoryVisitor;
 impl<'a> Visitor<'a> for PluginCategoryVisitor {
     type Value = PluginCategory;
     fn expecting(&self, formatter: &mut Formatter) -> FmtResult {
-        write!(formatter, r#"an integer between 0 and 9 or an object with a string value "category""#)
+        write!(formatter,
+               r#"an integer between 0 and 9 or an object with a string value "category""#)
     }
 
     fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
-        where E: Error {
+        where E: Error
+    {
         let res = match v {
             0 => PluginCategory::AdminTools,
             1 => PluginCategory::Chat,
@@ -45,41 +47,43 @@ impl<'a> Visitor<'a> for PluginCategoryVisitor {
         Ok(res)
     }
     fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
-        where A: MapAccess<'a> {
+        where A: MapAccess<'a>
+    {
         let mut category: Option<PluginCategory> = None;
         while let Ok(Some((key, value))) = map.next_entry::<String, String>() {
             if key == "title" {
                 category = Some(match value.as_str() {
-                    "Admin Tools" => PluginCategory::AdminTools,
-                    "Chat" => PluginCategory::Chat,
-                    "Developer Tools" => PluginCategory::DeveloperTools,
-                    "Economy" => PluginCategory::Economy,
-                    "Gameplay" => PluginCategory::Gameplay,
-                    "Games" => PluginCategory::Games,
-                    "Protection" => PluginCategory::Protection,
-                    "Role Playing" => PluginCategory::RolePlaying,
-                    "World Management" => PluginCategory::WorldManagement,
-                    "Miscellaneous" => PluginCategory::Miscellaneous,
-                    _ => PluginCategory::Undefined,
-                });
+                                    "Admin Tools" => PluginCategory::AdminTools,
+                                    "Chat" => PluginCategory::Chat,
+                                    "Developer Tools" => PluginCategory::DeveloperTools,
+                                    "Economy" => PluginCategory::Economy,
+                                    "Gameplay" => PluginCategory::Gameplay,
+                                    "Games" => PluginCategory::Games,
+                                    "Protection" => PluginCategory::Protection,
+                                    "Role Playing" => PluginCategory::RolePlaying,
+                                    "World Management" => PluginCategory::WorldManagement,
+                                    "Miscellaneous" => PluginCategory::Miscellaneous,
+                                    _ => PluginCategory::Undefined,
+                                });
 
             }
         }
         category.ok_or(SerdeError::custom(r#"Invalid value "category""#))
     }
-
 }
 
 impl Serialize for PluginCategory {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer {
+        where S: Serializer
+    {
         serializer.serialize_u8(*self as u8)
     }
 }
 
 impl<'a> Deserialize<'a> for PluginCategory {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'a> {
+        where D: Deserializer<'a>
+    {
         deserializer.deserialize_any(PluginCategoryVisitor)
     }
 }
@@ -103,14 +107,15 @@ impl<'a> Visitor<'a> for SortTypeVisitor {
         write!(formatter, "an integer between 0 and 4")
     }
     fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
-        where E: Error {
+        where E: Error
+    {
         let res = match v {
             0 => SortType::MostStars,
             1 => SortType::MostDownloads,
             2 => SortType::MostViews,
             3 => SortType::Newest,
             4 => SortType::RecentlyUpdated,
-            _ => SortType::Undefined
+            _ => SortType::Undefined,
         };
         Ok(res)
     }
@@ -118,14 +123,16 @@ impl<'a> Visitor<'a> for SortTypeVisitor {
 
 impl Serialize for SortType {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer {
+        where S: Serializer
+    {
         serializer.serialize_u8(*self as u8)
     }
 }
 
 impl<'a> Deserialize<'a> for SortType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'a> {
+        where D: Deserializer<'a>
+    {
         deserializer.deserialize_u8(SortTypeVisitor)
     }
 }
@@ -214,12 +221,15 @@ pub struct User {
 
 const DATETIME_FMT: &'static str = "%F %T%.3f";
 fn serialize_datetime<S>(datetime: &DateTime<UTC>, serializer: S) -> Result<S::Ok, S::Error>
-    where S: Serializer {
+    where S: Serializer
+{
     serializer.serialize_str(&format!("{}", datetime.format(DATETIME_FMT)))
 }
 
 fn deserialize_datetime<'a, D>(deserializer: D) -> Result<DateTime<UTC>, D::Error>
-    where D: Deserializer<'a> {
+    where D: Deserializer<'a>
+{
     let str = String::deserialize(deserializer)?;
-    UTC.datetime_from_str(&str, DATETIME_FMT).map_err(SerdeError::custom)
+    UTC.datetime_from_str(&str, DATETIME_FMT)
+        .map_err(SerdeError::custom)
 }
