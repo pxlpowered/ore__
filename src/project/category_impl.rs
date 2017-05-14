@@ -63,7 +63,7 @@ impl<'a> Visitor<'a> for CategoryVisitor {
                 });
             }
         }
-        category.ok_or(SerdeDeError::custom(r#"Invalid value "category""#))
+        category.ok_or(SerdeError::custom(r#"Invalid value "category""#))
     }
 }
 
