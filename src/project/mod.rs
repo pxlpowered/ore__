@@ -7,43 +7,27 @@
 
 // TODO: documentation
 
+pub mod category;
+pub mod channel;
+pub mod member;
+pub mod version;
+
 use chrono::{DateTime, UTC};
+use self::category::Category;
+use self::channel::Channel;
+use self::member::Member;
+use self::version::Version;
 use serialize::{deserialize_datetime, serialize_datetime};
+use std::fmt::{Display, Formatter, Result as FmtResult};
+use std::result::Result as StdResult;
 
-// TODO: documentation
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Channel<'a> {
-    color: &'a str,
-    name: &'a str,
-}
-
-// TODO: documentation
-#[derive(Debug, Clone, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Dependency<'a> {
-    plugin_id: &'a str,
-    version: &'a str,
-}
-
-// TODO: documentation
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Member<'a> {
-    head_role: Role,
-    name: &'a str,
-    roles: Vec<Role>,
-    user_id: u32,
-}
-
-// TODO: documentation
-#[derive(Clone, Debug, Deserialize, Serialize)]
+// // TODO: documentation
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Project<'a> {
     category: Category,
     channels: Vec<Channel<'a>>,
-    #[serde(serialize_with = "serialize_datetime", deserialize_with =
-    "deserialize_datetime")]
+    #[serde(serialize_with = "serialize_datetime", deserialize_with = "deserialize_datetime")]
     created_at: DateTime<UTC>,
     description: &'a str,
     downloads: u32,
@@ -56,45 +40,3 @@ pub struct Project<'a> {
     stars: u32,
     views: u32,
 }
-
-// TODO: documentation
-#[repr(u8)]
-#[derive(Clone, Copy, Debug)]
-pub enum Category {
-    AdminTools = 0,
-    Chat,
-    DeveloperTools,
-    Economy,
-    Gameplay,
-    Games,
-    Protection,
-    RolePlaying,
-    WorldManagement,
-    Miscellaneous,
-    Undefined,
-}
-
-// TODO: documentation
-#[repr(u8)]
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Role {
-    Admin,
-    Developer,
-    Editor,
-    Owner,
-    Support,
-}
-
-#[derive(Debug, Clone, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Version<'a> {
-    channel: Channel<'a>,
-    #[serde(serialize_with = "serialize_datetime", deserialize_with = "deserialize_datetime")]
-    created_at: DateTime<UTC>,
-    file_size: u32,
-    dependencies: Vec<Dependency<'a>>,
-    name: &'a str,
-    staff_approved: bool,
-}
-
-mod category_impl;
