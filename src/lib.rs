@@ -6,8 +6,6 @@
  */
 
 extern crate chrono;
-#[macro_use]
-extern crate derive_builder;
 extern crate hyper;
 extern crate hyper_rustls;
 extern crate serde;
