@@ -2,7 +2,7 @@
  Crate:         ore
  File:          /project/mod.rs
  Module:        ::project
- Visibility:    private
+ Visibility:    public
  */
 
 // TODO: documentation

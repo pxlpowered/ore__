@@ -1,7 +1,7 @@
 /*
  Crate:         ore
  File:          /project/category.rs
- Module:        ::project
+ Module:        ::project::category
  Visibility:    public
  */
 
