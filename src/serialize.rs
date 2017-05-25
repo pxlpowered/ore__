@@ -11,7 +11,7 @@ use chrono::{DateTime, TimeZone, UTC};
 use serde::{Deserialize, Deserializer, Serializer};
 use serde::de::Error as SerdeError;
 
-const DATE_TIME_FMT: &'static str = "%F %T%.3f";
+pub const DATE_TIME_FMT: &'static str = "%F %T%.3f";
 
 // TODO: documentation
 pub fn serialize_datetime<S>(datetime: &DateTime<UTC>, serializer: S) -> Result<S::Ok, S::Error>

@@ -7,7 +7,6 @@
 
 // TODO: documentation
 
-use types::{Plugin, PluginCategory, SortType};
 use hyper::Error as HttpError;
 use serde_json::Error as SerdeError;
 use std::error::Error as StdError;

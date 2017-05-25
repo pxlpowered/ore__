@@ -18,9 +18,4 @@ pub mod query;
 
 mod serialize;
 
-mod api;
 mod types;
-
-pub use types::{Plugin, PluginCategory, SortType, ShortUser, Channel, Version, Dependency, User};
-pub use api::{UserQuery, Error, PluginSearchQuery, VersionSearchQuery};
-pub use api::{search_plugins, search_versions, get_plugin, get_users, get_user, get_version};

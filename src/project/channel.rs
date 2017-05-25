@@ -20,11 +20,66 @@ pub struct Channel<'a> {
     name: &'a str,
 }
 
+impl<'a> Channel<'a> {
+
+    // TODO: documentation
+    pub fn color(&self) -> Color {
+        self.color
+    }
+
+    // TODO: documentation
+    pub fn name(&self) -> &str {
+        self.name
+    }
+}
+
+impl<'a> Display for Channel<'a> {
+
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        write!(f, "{}", self.name)
+    }
+}
+
 // TODO documentation
 #[derive(Clone, Copy, Debug)]
 pub enum Color {
     RGB(u8, u8, u8),
     Transparent,
+}
+
+impl Color {
+
+    // TODO: documentation
+    pub fn red(&self) -> Option<u8> {
+        match *self {
+            Color::RGB(r, ..) => Some(r),
+            Color::Transparent => None,
+        }
+    }
+
+    // TODO: documentation
+    pub fn green(&self) -> Option<u8> {
+        match *self {
+            Color::RGB(_, g, ..) => Some(g),
+            Color::Transparent => None,
+        }
+    }
+
+    // TODO: documentation
+    pub fn blue(&self) -> Option<u8> {
+        match *self {
+            Color::RGB(_, _, b) => Some(b),
+            Color::Transparent => None,
+        }
+    }
+
+    // TODO: documentation
+    pub fn rbg(&self) -> Option<(u8, u8, u8)> {
+        match *self {
+            Color::RGB(r, g, b) => Some((r, g, b)),
+            Color::Transparent => None,
+        }
+    }
 }
 
 #[doc(hidden)]
