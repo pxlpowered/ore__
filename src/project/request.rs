@@ -24,7 +24,7 @@ const PROJECTS: &'static str = "/projects";
 
 // TODO: documentation
 #[derive(Clone, Debug)]
-pub struct ProjectsQuery {
+pub struct ProjectsRequest {
     categories: Option<Vec<Category>>,
     limit: Option<u32>,
     offset: Option<u32>,
@@ -32,7 +32,7 @@ pub struct ProjectsQuery {
     sort: Option<SortType>,
 }
 
-impl ProjectsQuery {
+impl ProjectsRequest {
 
     // TODO: documentation
     pub fn categories(&self) -> Option<Vec<Category>> {
@@ -130,10 +130,10 @@ impl ProjectsQuery {
     }
 }
 
-impl Default for ProjectsQuery {
+impl Default for ProjectsRequest {
 
     fn default() -> Self {
-        ProjectsQuery {
+        ProjectsRequest {
             categories: None,
             limit: None,
             offset: None,
@@ -143,7 +143,7 @@ impl Default for ProjectsQuery {
     }
 }
 
-impl<'a> Request<'a> for ProjectsQuery {
+impl<'a> Request<'a> for ProjectsRequest {
     type Ret = Vec<Project>;
 
     fn request(&self, url: &'a str) -> StdResult<Self::Ret, RequestError> {
