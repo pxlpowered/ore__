@@ -41,7 +41,6 @@ pub struct Project {
 }
 
 impl Project {
-
     // TODO: documentation
     pub fn category(&self) -> Category {
         self.category

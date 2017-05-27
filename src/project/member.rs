@@ -20,7 +20,6 @@ pub struct Member {
 }
 
 impl Member {
-
     // TODO: documentation
     pub fn head_role(&self) -> Role {
         self.head_role
@@ -54,14 +53,15 @@ pub enum Role {
 }
 
 impl Display for Role {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
-        write!(f, "{}", match *self {
-            Role::Admin => "Admin",
-            Role::Developer => "Developer",
-            Role::Editor => "Editor",
-            Role::Owner => "Owner",
-            Role::Support => "Support",
-        })
+        write!(f,
+               "{}",
+               match *self {
+                   Role::Admin => "Admin",
+                   Role::Developer => "Developer",
+                   Role::Editor => "Editor",
+                   Role::Owner => "Owner",
+                   Role::Support => "Support",
+               })
     }
 }

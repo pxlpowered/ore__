@@ -36,7 +36,6 @@ pub enum Error {
 }
 
 impl Display for Error {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         match *self {
             Error::Http(ref why) => why.fmt(f),
@@ -48,41 +47,36 @@ impl Display for Error {
 }
 
 impl From<HttpError> for Error {
-
     fn from(err: HttpError) -> Self {
         Error::Http(err)
     }
 }
 
 impl From<UriParseError> for Error {
-
     fn from(err: UriParseError) -> Self {
         Error::Http(HttpError::Uri(err))
     }
 }
 
 impl From<IoError> for Error {
-
     fn from(err: IoError) -> Self {
         Error::Io(err)
     }
 }
 
 impl From<JsonError> for Error {
-
     fn from(err: JsonError) -> Self {
         Error::Json(err)
     }
 }
 
 impl StdError for Error {
-
     fn description(&self) -> &str {
         match *self {
             Error::Http(ref why) => why.description(),
             Error::InvalidId(..) => "Invalid project id found",
             Error::Io(ref why) => why.description(),
-            Error::Json(ref why) => why.description()
+            Error::Json(ref why) => why.description(),
         }
     }
 

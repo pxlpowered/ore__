@@ -21,7 +21,6 @@ pub struct Channel {
 }
 
 impl Channel {
-
     // TODO: documentation
     pub fn color(&self) -> Color {
         self.color
@@ -34,7 +33,6 @@ impl Channel {
 }
 
 impl Display for Channel {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(f, "{}", self.name)
     }
@@ -48,7 +46,6 @@ pub enum Color {
 }
 
 impl Color {
-
     // TODO: documentation
     pub fn red(&self) -> Option<u8> {
         match *self {
@@ -84,7 +81,6 @@ impl Color {
 
 #[doc(hidden)]
 impl<'a> Deserialize<'a> for Color {
-
     fn deserialize<D>(deserializer: D) -> StdResult<Self, D::Error>
         where D: Deserializer<'a>
     {
@@ -93,7 +89,6 @@ impl<'a> Deserialize<'a> for Color {
 }
 
 impl Display for Color {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         match *self {
             Color::Transparent => write!(f, "transparent"),
@@ -104,14 +99,17 @@ impl Display for Color {
 
 #[doc(hidden)]
 impl Serialize for Color {
-
     fn serialize<S>(&self, serializer: S) -> StdResult<S::Ok, S::Error>
         where S: Serializer
     {
-        serializer.serialize_str(format!("{}", match *self {
-            Color::RGB(ref r, ref g, ref b) => format!("#{:x}{:x}{:x}", r, g, b),
-            Color::Transparent => "transparent".to_string(),
-        }).as_str())
+        serializer.serialize_str(format!("{}",
+                                         match *self {
+                                             Color::RGB(ref r, ref g, ref b) => {
+                                                 format!("#{:x}{:x}{:x}", r, g, b)
+                                             }
+                                             Color::Transparent => "transparent".to_string(),
+                                         })
+                                         .as_str())
     }
 }
 
@@ -132,11 +130,10 @@ impl<'a> Visitor<'a> for ColorVisitor {
             "transparent" => Ok(Color::Transparent),
             ref s => {
                 if s.len() != 7 {
-                    Err(DeserializeError::custom("color code has to be 7 characters long"))
+                    Err(DeserializeError::custom("color code should be 7 characters long"))
                 } else {
                     if !s.starts_with("#") {
-                        return Err(
-                            DeserializeError::custom("color code needs to start with a \"#\""))
+                        return Err(DeserializeError::custom("color code should start with \"#\""));
                     }
 
                     let mut rgb: (u8, u8, u8) = (0, 0, 0);
@@ -149,7 +146,7 @@ impl<'a> Visitor<'a> for ColorVisitor {
                     match buf.as_str().parse::<u8>() {
                         Ok(x) => rgb.0 = x,
                         Err(..) => return Err(DeserializeError::custom(
-                            r#""red" component of the color code is incorrect"#))
+                            r#""red" component of the color code is incorrect"#)),
                     }
 
                     buf.clear();
@@ -159,7 +156,7 @@ impl<'a> Visitor<'a> for ColorVisitor {
                     match buf.as_str().parse::<u8>() {
                         Ok(x) => rgb.1 = x,
                         Err(..) => return Err(DeserializeError::custom(
-                            r#""green" component of the color code is incorrect"#))
+                            r#""green" component of the color code is incorrect"#)),
                     }
 
                     buf.clear();
@@ -169,7 +166,7 @@ impl<'a> Visitor<'a> for ColorVisitor {
                     match buf.as_str().parse::<u8>() {
                         Ok(x) => rgb.2 = x,
                         Err(..) => return Err(DeserializeError::custom(
-                            r#""blue" component of the color code is incorrect"#))
+                            r#""blue" component of the color code is incorrect"#)),
                     }
 
                     Ok(Color::RGB(rgb.0, rgb.1, rgb.2))

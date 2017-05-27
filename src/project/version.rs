@@ -28,10 +28,8 @@ pub struct Version {
 }
 
 impl Version {
-
     // TODO: documentation
-    pub fn channel(&self) -> Channel
-    {
+    pub fn channel(&self) -> Channel {
         self.channel.to_owned()
     }
 
@@ -82,7 +80,6 @@ pub struct Dependency {
 }
 
 impl Dependency {
-
     // TODO: documentation
     pub fn plugin_name(&self) -> String {
         self.plugin_id.to_owned()
@@ -95,7 +92,6 @@ impl Dependency {
 }
 
 impl Display for Dependency {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(f, "{}@{}", self.plugin_id, self.version)
     }

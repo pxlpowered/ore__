@@ -7,9 +7,7 @@
 
 // TODO: documentation
 
-use hyper::{Client, Url};
-use hyper::net::HttpsConnector;
-use hyper_rustls::TlsClient;
+
 use project::category::Category;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json;
@@ -17,7 +15,6 @@ use request::{Error as RequestError, Request};
 use super::Project;
 use serde::de::{Error as DeserializeError, Visitor};
 use std::fmt::{Display, Formatter, Result as FmtResult};
-use std::io::Read;
 use std::result::Result as StdResult;
 
 const PROJECTS: &'static str = "/projects";
@@ -33,14 +30,13 @@ pub struct ProjectsRequest {
 }
 
 impl ProjectsRequest {
-
     // TODO: documentation
     pub fn categories(&self) -> Option<Vec<Category>> {
         self.categories.to_owned()
     }
 
     // TODO: documentation
-    pub fn add_category(&mut self, category: &Category) -> &mut Self  {
+    pub fn add_category(&mut self, category: &Category) -> &mut Self {
 
         match self.categories {
             Some(ref mut cats) => cats.push(*category),
@@ -131,7 +127,6 @@ impl ProjectsRequest {
 }
 
 impl Default for ProjectsRequest {
-
     fn default() -> Self {
         ProjectsRequest {
             categories: None,
@@ -147,6 +142,11 @@ impl<'a> Request<'a> for ProjectsRequest {
     type Ret = Vec<Project>;
 
     fn request(&self, url: &'a str) -> StdResult<Self::Ret, RequestError> {
+        use hyper::{Client, Url};
+        use hyper::net::HttpsConnector;
+        use hyper_rustls::TlsClient;
+        use std::io::Read;
+
         let mut req_url = Url::parse((url.to_string() + PROJECTS).as_str())?;
 
         {
@@ -181,7 +181,9 @@ impl<'a> Request<'a> for ProjectsRequest {
         }
 
         let mut res = String::new();
-        Client::with_connector(HttpsConnector::new(TlsClient::new())).get(req_url).send()?
+        Client::with_connector(HttpsConnector::new(TlsClient::new()))
+            .get(req_url)
+            .send()?
             .read_to_string(&mut res)?;
 
         Ok(serde_json::from_str::<Self::Ret>(res.as_str())?)
@@ -201,7 +203,6 @@ pub enum SortType {
 
 #[doc(hidden)]
 impl<'a> Deserialize<'a> for SortType {
-
     fn deserialize<D>(deserializer: D) -> StdResult<Self, D::Error>
         where D: Deserializer<'a>
     {
@@ -210,21 +211,21 @@ impl<'a> Deserialize<'a> for SortType {
 }
 
 impl Display for SortType {
-
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
-        write!(f, "{}", match *self {
-            SortType::MostStars => "Most Stars",
-            SortType::MostDownloads => "Most Downloads",
-            SortType::MostViews => "Most Views",
-            SortType::Newest => "Newest",
-            SortType::RecentlyUpdated => "Recently Updated",
-        })
+        write!(f,
+               "{}",
+               match *self {
+                   SortType::MostStars => "Most Stars",
+                   SortType::MostDownloads => "Most Downloads",
+                   SortType::MostViews => "Most Views",
+                   SortType::Newest => "Newest",
+                   SortType::RecentlyUpdated => "Recently Updated",
+               })
     }
 }
 
 #[doc(hidden)]
 impl Serialize for SortType {
-
     fn serialize<S>(&self, serializer: S) -> StdResult<S::Ok, S::Error>
         where S: Serializer
     {
@@ -236,7 +237,6 @@ impl Serialize for SortType {
 struct SortTypeVisitor;
 
 impl<'a> Visitor<'a> for SortTypeVisitor {
-
     type Value = SortType;
 
     fn expecting(&self, f: &mut Formatter) -> FmtResult {
@@ -252,7 +252,7 @@ impl<'a> Visitor<'a> for SortTypeVisitor {
             2 => Ok(SortType::MostViews),
             3 => Ok(SortType::Newest),
             4 => Ok(SortType::RecentlyUpdated),
-            _ => Err(DeserializeError::custom(r#"invalid sort type"#))
+            _ => Err(DeserializeError::custom(r#"invalid sort type"#)),
         }
     }
 
