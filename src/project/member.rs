@@ -12,14 +12,14 @@ use std::fmt::{Display, Formatter, Result as FmtResult};
 // TODO: documentation
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Member<'a> {
+pub struct Member {
     head_role: Role,
-    name: &'a str,
+    name: String,
     roles: Vec<Role>,
     user_id: u32,
 }
 
-impl<'a> Member<'a> {
+impl Member {
 
     // TODO: documentation
     pub fn head_role(&self) -> Role {
@@ -27,8 +27,8 @@ impl<'a> Member<'a> {
     }
 
     // TODO: documentation
-    pub fn name(&self) -> &str {
-        self.name
+    pub fn name(&self) -> String {
+        self.name.to_owned()
     }
 
     // TODO: documentation

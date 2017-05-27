@@ -10,6 +10,7 @@
 pub mod category;
 pub mod channel;
 pub mod member;
+pub mod request;
 pub mod version;
 
 use chrono::{DateTime, UTC};
@@ -19,27 +20,27 @@ use self::member::Member;
 use self::version::Version;
 use serialize::{deserialize_datetime, serialize_datetime};
 
-// // TODO: documentation
+// TODO: documentation
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Project<'a> {
+pub struct Project {
     category: Category,
-    channels: Vec<Channel<'a>>,
+    channels: Vec<Channel>,
     #[serde(serialize_with = "serialize_datetime", deserialize_with = "deserialize_datetime")]
     created_at: DateTime<UTC>,
-    description: &'a str,
+    description: String,
     downloads: u32,
-    href: &'a str,
-    members: Vec<Member<'a>>,
-    name: &'a str,
-    owner: &'a str,
-    plugin_id: &'a str,
-    recommended: Version<'a>,
+    href: String,
+    members: Vec<Member>,
+    name: String,
+    owner: String,
+    plugin_id: String,
+    recommended: Version,
     stars: u32,
     views: u32,
 }
 
-impl<'a> Project<'a> {
+impl Project {
 
     // TODO: documentation
     pub fn category(&self) -> Category {
@@ -54,12 +55,13 @@ impl<'a> Project<'a> {
     // TODO: documentation
     pub fn created_at(&self) -> String {
         use serialize::DATE_TIME_FMT;
+
         format!("{}", self.created_at.format(DATE_TIME_FMT))
     }
 
     // TODO: documentation
-    pub fn description(&self) -> &str {
-        self.description
+    pub fn description(&self) -> String {
+        self.description.to_owned()
     }
 
     // TODO: documentation
@@ -68,8 +70,8 @@ impl<'a> Project<'a> {
     }
 
     // TODO: documentation
-    pub fn href(&self) -> &str {
-        self.href
+    pub fn href(&self) -> String {
+        self.href.to_owned()
     }
 
     // TODO: documentation
@@ -78,18 +80,18 @@ impl<'a> Project<'a> {
     }
 
     // TODO: documentation
-    pub fn name(&self) -> &str {
-        self.name
+    pub fn name(&self) -> String {
+        self.name.to_owned()
     }
 
     // TODO: documentation
-    pub fn owner(&self) -> &str {
-        self.owner
+    pub fn owner(&self) -> String {
+        self.owner.to_owned()
     }
 
     // TODO: documentation
-    pub fn plugin_id(&self) -> &str {
-        self.plugin_id
+    pub fn plugin_id(&self) -> String {
+        self.plugin_id.to_owned()
     }
 
     // TODO: documentation

@@ -15,12 +15,12 @@ use std::result::Result as StdResult;
 // TODO documentation
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Channel<'a> {
+pub struct Channel {
     color: Color,
-    name: &'a str,
+    name: String,
 }
 
-impl<'a> Channel<'a> {
+impl Channel {
 
     // TODO: documentation
     pub fn color(&self) -> Color {
@@ -28,12 +28,12 @@ impl<'a> Channel<'a> {
     }
 
     // TODO: documentation
-    pub fn name(&self) -> &str {
-        self.name
+    pub fn name(&self) -> String {
+        self.name.to_owned()
     }
 }
 
-impl<'a> Display for Channel<'a> {
+impl Display for Channel {
 
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(f, "{}", self.name)

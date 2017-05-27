@@ -1,7 +1,7 @@
 /*
  Crate:         ore
- File:          /query.rs
- Module:        ::query
+ File:          /request.rs
+ Module:        ::request
  Visibility:    public
  */
 
@@ -9,23 +9,21 @@
 
 use hyper::Error as HttpError;
 use hyper::error::ParseError as UriParseError;
-use serde_json::Error as SerdeError;
+use serde_json::Error as JsonError;
 use std::error::Error as StdError;
 use std::fmt::{Display, Formatter, Result as FmtResult};
 use std::io::Error as IoError;
 use std::result::Result as StdResult;
 
-pub type Result<T> = StdResult<T, self::Error>;
-
 // TODO: documentation
-pub trait Query<'a> {
+pub trait Request<'a> {
     // TODO: documentation
     /// The return type.
     type Ret;
 
     // TODO: documentation
     /// Initiate a query.
-    fn query(&self, url: &'a str) -> Result<Self::Ret>;
+    fn request(&self, url: &'a str) -> StdResult<Self::Ret, self::Error>;
 }
 
 // TODO: documentation
@@ -34,7 +32,7 @@ pub enum Error {
     Http(HttpError),
     InvalidId(String),
     Io(IoError),
-    Json(SerdeError),
+    Json(JsonError),
 }
 
 impl Display for Error {
@@ -70,9 +68,9 @@ impl From<IoError> for Error {
     }
 }
 
-impl From<SerdeError> for Error {
+impl From<JsonError> for Error {
 
-    fn from(err: SerdeError) -> Self {
+    fn from(err: JsonError) -> Self {
         Error::Json(err)
     }
 }

@@ -15,19 +15,19 @@ use std::fmt::{Display, Formatter, Result as FmtResult};
 // TODO: documentation
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Version<'a> {
-    channel: Channel<'a>,
+pub struct Version {
+    channel: Channel,
     #[serde(serialize_with = "serialize_datetime", deserialize_with = "deserialize_datetime")]
     created_at: DateTime<UTC>,
-    dependencies: Vec<Dependency<'a>>,
+    dependencies: Vec<Dependency>,
     file_size: u32,
     id: u32,
-    name: &'a str,
-    plugin_id: &'a str,
+    name: String,
+    plugin_id: String,
     staff_approved: bool,
 }
 
-impl<'a> Version<'a> {
+impl Version {
 
     // TODO: documentation
     pub fn channel(&self) -> Channel
@@ -38,6 +38,7 @@ impl<'a> Version<'a> {
     // TODO: documentation
     pub fn created_at(&self) -> String {
         use serialize::DATE_TIME_FMT;
+
         format!("{}", self.created_at.format(DATE_TIME_FMT))
     }
 
@@ -57,13 +58,13 @@ impl<'a> Version<'a> {
     }
 
     // TODO: documentation
-    pub fn name(&self) -> &str {
-        self.name
+    pub fn name(&self) -> String {
+        self.name.to_owned()
     }
 
     // TODO: documentation
-    pub fn plugin_id(&self) -> &str {
-        self.plugin_id
+    pub fn plugin_id(&self) -> String {
+        self.plugin_id.to_owned()
     }
 
     // TODO: documentation
@@ -73,27 +74,27 @@ impl<'a> Version<'a> {
 }
 
 // TODO: documentation
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Dependency<'a> {
-    plugin_id: &'a str,
-    version: &'a str,
+pub struct Dependency {
+    plugin_id: String,
+    version: String,
 }
 
-impl<'a> Dependency<'a> {
+impl Dependency {
 
     // TODO: documentation
-    pub fn plugin_name(&self) -> &str {
-        self.plugin_id
+    pub fn plugin_name(&self) -> String {
+        self.plugin_id.to_owned()
     }
 
     // TODO: documentation
-    pub fn version(&self) -> &str {
-        self.version
+    pub fn version(&self) -> String {
+        self.version.to_owned()
     }
 }
 
-impl<'a> Display for Dependency<'a> {
+impl Display for Dependency {
 
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         write!(f, "{}@{}", self.plugin_id, self.version)
