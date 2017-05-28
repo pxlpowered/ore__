@@ -13,6 +13,9 @@ pub mod member;
 pub mod request;
 pub mod version;
 
+pub use self::request::get_plugin;
+
+use ::request::{Error as RequestError, Request};
 use chrono::{DateTime, UTC};
 use self::category::Category;
 use self::channel::Channel;
@@ -107,4 +110,11 @@ impl Project {
     pub fn views(&self) -> u32 {
         self.views
     }
+}
+
+// TODO: documentation
+pub fn search_projects(query: &str, url: &str) -> Result<Vec<Project>, RequestError> {
+    use self::request::ProjectsRequest;
+
+    ProjectsRequest::default().set_query(query.to_string()).request(url)
 }

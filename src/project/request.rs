@@ -262,3 +262,19 @@ impl<'a> Visitor<'a> for SortTypeVisitor {
         Self::visit_u8(self, v as u8)
     }
 }
+
+pub fn get_plugin(id: &str, url: &str) -> Result<Project, RequestError> {
+    use hyper::{Client, Url};
+    use hyper::net::HttpsConnector;
+    use hyper_rustls::TlsClient;
+    use std::io::Read;
+
+    let mut res = String::new();
+    Client::with_connector(HttpsConnector::new(TlsClient::new()))
+        .get(Url::parse((url.to_string() + PROJECTS).as_str())?.join(id)
+            .map_err(|_| RequestError::InvalidId)?)
+        .send()?
+        .read_to_string(&mut res)?;
+
+    Ok(serde_json::from_str::<Project>(res.as_str())?)
+}
