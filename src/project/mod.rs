@@ -368,7 +368,7 @@ pub fn search_projects(query: &str, url: &str) -> Result<Vec<Project>, RequestEr
         .request(url)
 }
 
-pub fn get_plugin(id: &str, url: &str) -> Result<Project, RequestError> {
+pub fn get_project(id: &str, url: &str) -> Result<Project, RequestError> {
     use hyper::{Client, Url};
     use hyper::net::HttpsConnector;
     use hyper_rustls::TlsClient;
