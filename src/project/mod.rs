@@ -92,7 +92,7 @@ impl Project {
     }
 
     // TODO: documentation
-    pub fn plugin_id(&self) -> String {
+    pub fn project_id(&self) -> String {
         self.plugin_id.to_owned()
     }
 

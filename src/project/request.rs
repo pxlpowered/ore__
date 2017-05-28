@@ -271,8 +271,8 @@ pub fn get_plugin(id: &str, url: &str) -> Result<Project, RequestError> {
 
     let mut res = String::new();
     Client::with_connector(HttpsConnector::new(TlsClient::new()))
-        .get(Url::parse((url.to_string() + PROJECTS).as_str())?.join(id)
-            .map_err(|_| RequestError::InvalidId)?)
+        .get(Url::parse((url.to_string() + PROJECTS).as_str())?.join(&id)
+            .map_err(|_| RequestError::InvalidId(id.to_string()))?)
         .send()?
         .read_to_string(&mut res)?;
 
