@@ -17,7 +17,7 @@ use chrono::{DateTime, UTC};
 use self::category::Category;
 use self::channel::Channel;
 use self::member::Member;
-use self::version::Version;
+use self::version::{Version, VersionsRequest};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde::de::{Error as DeserializeError, Visitor};
 use serde_json;
@@ -112,12 +112,18 @@ impl Project {
     pub fn views(&self) -> u32 {
         self.views
     }
+
+    // TODO: documentation
+    #[inline]
+    pub fn versions(&self) -> Result<VersionsRequest, RequestError> {
+        VersionsRequest::new_from_project(self)
+    }
 }
 
 const PROJECTS: &'static str = "/projects";
 
 // TODO: documentation
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct ProjectsRequest {
     categories: Option<Vec<Category>>,
     limit: Option<u32>,
@@ -220,18 +226,6 @@ impl ProjectsRequest {
     pub fn reset_sort_type(&mut self) -> &mut Self {
         self.sort = None;
         self
-    }
-}
-
-impl Default for ProjectsRequest {
-    fn default() -> Self {
-        ProjectsRequest {
-            categories: None,
-            limit: None,
-            offset: None,
-            q: None,
-            sort: None,
-        }
     }
 }
 
@@ -362,12 +356,15 @@ impl<'a> Visitor<'a> for SortTypeVisitor {
 
 
 // TODO: documentation
+#[inline]
 pub fn search_projects(query: &str, url: &str) -> Result<Vec<Project>, RequestError> {
     ProjectsRequest::default()
         .set_query(query.to_string())
         .request(url)
 }
 
+// TODO: documentation
+#[inline]
 pub fn get_project(id: &str, url: &str) -> Result<Project, RequestError> {
     use hyper::{Client, Url};
     use hyper::net::HttpsConnector;

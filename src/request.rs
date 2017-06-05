@@ -31,6 +31,7 @@ pub trait Request<'a> {
 pub enum Error {
     Http(HttpError),
     InvalidId(String),
+    InvalidVersion(String),
     Io(IoError),
     Json(JsonError),
 }
@@ -40,6 +41,7 @@ impl Display for Error {
         match *self {
             Error::Http(ref why) => why.fmt(f),
             Error::InvalidId(ref why) => write!(f, "invalid project id {}", why),
+            Error::InvalidVersion(ref why) => write!(f, "invalid project version {}", why),
             Error::Io(ref why) => why.fmt(f),
             Error::Json(ref why) => why.fmt(f),
         }
@@ -75,6 +77,7 @@ impl StdError for Error {
         match *self {
             Error::Http(ref why) => why.description(),
             Error::InvalidId(..) => "Invalid project id found",
+            Error::InvalidVersion(..) => "invalid project version found",
             Error::Io(ref why) => why.description(),
             Error::Json(ref why) => why.description(),
         }
