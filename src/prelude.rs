@@ -1,6 +1,6 @@
 /*
  Crate:         ore
- File:          /prelude/mod.rs
+ File:          /prelude.rs
  Module:        ::prelude
  Visibility:    public
  */
